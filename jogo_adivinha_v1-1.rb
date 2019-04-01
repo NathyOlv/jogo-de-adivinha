@@ -1,48 +1,60 @@
-#Exercício 1 de Ruby
-#Jogo de Adivinha v1.1
+def da_boas_vindas
+  puts ’Bem-vindo ao jogo da adivinhacao’
+  puts ’Qual e o seu nome?’
+  nome = gets
+  puts "\n\n\n\n"
+  puts "Comecaremos o jogo para voce, #{nome}"
+end
 
-  valor_programador = 66
-    
-    puts "Informe seu nome"
-    nome_usuario = gets
-  
+def sorteia_numero_secreto
+  puts ’Escolhendo um numero secreto entre 0 e 200...’
+  numero_secreto = 121
+  puts ’Escolhido... que tal adivinhar hoje o nosso numero secreto?’
+  numero_secreto
+end
 
-    puts "\nPrimeira tentativa"
-    valor_usuario = gets
-  
-    puts nome_usuario
-    puts valor_programador == valor_usuario.to_i
-    if valor_programador > valor_usuario.to_i
-      puts "O valor informado é menor que o secreto"
-    elsif valor_programador < valor_usuario.to_i
-      puts "O valor informado é maior que o secreto"
-    else
-      puts "Você acertou! Parabéns!"
-    end
-      
-    puts "\nSegunda tentativa"
-    valor_usuario = gets
-  
-    puts nome_usuario
-    puts valor_programador == valor_usuario.to_i
-    if valor_programador > valor_usuario.to_i
-      puts "O valor informado é menor que o secreto"
-    elsif valor_programador < valor_usuario.to_i
-      puts "O valor informado é maior que o secreto"
-    else
-      puts "Você acertou! Parabéns!"
-    end
-  
-    puts "\nTerceira tentativa"
-    valor_usuario = gets
-  
-    puts nome_usuario
-    puts valor_programador == valor_usuario.to_i
-    if valor_programador > valor_usuario.to_i
-      puts "O valor informado é menor que o secreto"
-    elsif valor_programador < valor_usuario.to_i
-      puts "O valor informado é maior que o secreto"
-    else
-      puts "Você acertou! Parabéns!"
-    end
+def pede_um_numero(tentativa, limite_de_tentativas)
+  puts "\n\n\n"
+  puts "Tentativa #{tentativa} de #{limite_de_tentativas}"
+  puts ’Entre com o numero’
+  chute = gets
+  puts "Sera que acertou? Voce chutou #{chute}"
+  chute.to_i
+end
 
+def verifica_se_acertou(numero_secreto, chute)
+  acertou = numero_secreto == chute
+  if acertou
+    puts ’Acertou!’
+    return true
+  else
+    maior = numero_secreto > chute
+    if maior
+      puts ’O numero secreto e maior!’
+    else
+      puts ’O numero secreto e menor!’
+    end
+    false
+  end
+end
+
+def joga(limite_de_tentativas)
+  numero_secreto = sorteia_numero_secreto
+  (1..limite_de_tentativas).each do |tentativa|
+  chute = pede_um_numero tentativa, limite_de_tentativas
+  break if verifica_se_acertou numero_secreto, chute
+  end
+end
+
+def nao_quer_jogar?
+  puts ’Deseja jogar novamente? (S/N)’
+  quero_jogar = gets.strip.upcase
+  quero_jogar.casecmp(’N’).zero?
+end
+
+da_boas_vindas
+limite_de_tentativas = 3
+loop do
+  joga limite_de_tentativas
+break if nao_quer_jogar?
+end
